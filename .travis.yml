@@ -7,8 +7,7 @@ script:
 
 before_deploy:
   - node -e "if(require('./package.json').version !== '$TRAVIS_TAG') { console.error('Git tag does not match package version'); process.exit(1); }"
-  - npm pack
-  - for f in *.tgz; do shasum --algorithm 256 $f > $f.sha256sum; done
+  - ./package.sh
 
 deploy:
   provider: releases
