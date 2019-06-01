@@ -13,13 +13,6 @@ const {
   Device,
 } = require('gateway-addon');
 
-const deviceDescription = {
-  '@context': 'https://iot.mozilla.org/schemas/',
-  '@type': 'thing',
-  name: 'Slack',
-  description: 'Sends messages to your slack workspace'
-};
-
 const notifyDescription = {
   '@type': 'NotificationAction',
   title: 'notify',
@@ -35,20 +28,19 @@ const notifyDescription = {
 };
 
 class SlackDevice extends Device {
-  constructor(adapter, config) {
-    super(adapter, SlackDevice.name);
-    this.config = config;
-
-    for (const property in deviceDescription) {
-      this[property] = deviceDescription[property];
-    }
+  constructor(adapter, manifest) {
+    super(adapter, manifest.display_name);
+    this['@context'] = 'https://iot.mozilla.org/schemas/';
+    this.name = manifest.display_name;
+    this.description = manifest.description;
+    this.config = manifest.moziot.config;
 
     this.addAction(notifyDescription.title, notifyDescription);
 
     this.messages = {};
 
-    if (config.messages) {
-      for (const message of config.messages) {
+    if (this.config.messages) {
+      for (const message of this.config.messages) {
         this.messages[message.name] = message.message;
 
         const action = {
@@ -105,7 +97,7 @@ class SlackAdapter extends Adapter {
   constructor(addonManager, manifest) {
     super(addonManager, SlackAdapter.name, manifest.name);
     addonManager.addAdapter(this);
-    const device = new SlackDevice(this, manifest.moziot.config);
+    const device = new SlackDevice(this, manifest);
     this.handleDeviceAdded(device);
   }
 }
