@@ -22,7 +22,8 @@
     "LICENSE",
     "SHA256SUMS",
     "index.js",
-    "slack-adapter.js"
+    "slack-adapter.js",
+    "manifest.json"
   ],
   "moziot": {
     "api": {

@@ -1,0 +1,55 @@
+{
+  "id": "slack-adapter",
+  "short_name": "Slack",
+  "name": "Slack",
+  "version": "0.1.3",
+  "description": "Send slack messages to your workspace",
+  "homepage_url": "https://github.com/tim-hellhake/slack-adapter#readme",
+  "author": "Tim Hellhake",
+  "license": "MPL-2.0",
+  "manifest_version": 1,
+  "gateway_specific_settings": {
+    "webthings": {
+      "exec": "{nodeLoader} {path}",
+      "primary_type": "adapter",
+      "strict_max_version": "*",
+      "strict_min_version": "0.10.0"
+    }
+  },
+  "options": {
+    "schema": {
+      "properties": {
+        "messages": {
+          "items": {
+            "properties": {
+              "message": {
+                "title": "The text of the message",
+                "type": "string"
+              },
+              "name": {
+                "title": "The name of the action",
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "message"
+            ],
+            "title": "A predefined message",
+            "type": "object"
+          },
+          "title": "Predefined messages",
+          "type": "array"
+        },
+        "webhookUrl": {
+          "title": "The slack webhook url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "webhookUrl"
+      ],
+      "type": "object"
+    }
+  }
+}
