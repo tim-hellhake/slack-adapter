@@ -1,7 +1,7 @@
 {
   "name": "slack-adapter",
   "display_name": "Slack",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Send slack messages to your workspace",
   "main": "index.js",
   "scripts": {
