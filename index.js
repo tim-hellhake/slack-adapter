@@ -9,4 +9,15 @@
 const SlackAdapter = require('./slack-adapter');
 
 module.exports =
-    (addonManager, manifest) => new SlackAdapter(addonManager, manifest);
+  (addonManager, manifest) => {
+    new SlackAdapter(addonManager, manifest);
+
+    try {
+      const ProwlNotifier = require('./slack-notifier');
+      new ProwlNotifier(addonManager, manifest);
+    } catch (e) {
+      if (!(e instanceof TypeError)) {
+        console.error(e);
+      }
+    }
+  };

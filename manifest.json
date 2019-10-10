@@ -11,7 +11,7 @@
   "gateway_specific_settings": {
     "webthings": {
       "exec": "{nodeLoader} {path}",
-      "primary_type": "adapter",
+      "primary_type": "notifier",
       "strict_max_version": "*",
       "strict_min_version": "0.10.0"
     }

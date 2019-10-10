@@ -23,6 +23,7 @@
     "SHA256SUMS",
     "index.js",
     "slack-adapter.js",
+    "slack-notifier.js",
     "manifest.json"
   ],
   "moziot": {
