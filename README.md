@@ -1,6 +1,6 @@
 # Slack Adapter
 
-[![Build Status](https://travis-ci.org/tim-hellhake/slack-adapter.svg?branch=master)](https://travis-ci.org/tim-hellhake/slack-adapter)
+[![build](https://github.com/tim-hellhake/slack-adapter/workflows/Build/badge.svg)](https://github.com/tim-hellhake/slack-adapter/actions?query=workflow:Build)
 [![dependencies](https://david-dm.org/tim-hellhake/slack-adapter.svg)](https://david-dm.org/tim-hellhake/slack-adapter)
 [![devDependencies](https://david-dm.org/tim-hellhake/slack-adapter/dev-status.svg)](https://david-dm.org/tim-hellhake/slack-adapter?type=dev)
 [![optionalDependencies](https://david-dm.org/tim-hellhake/slack-adapter/optional-status.svg)](https://david-dm.org/tim-hellhake/slack-adapter?type=optional)
