@@ -3,10 +3,10 @@
   "display_name": "Slack",
   "version": "0.2.2",
   "description": "Send slack messages to your workspace",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ."
+    "build": "tsc -p ."
   },
   "repository": {
     "type": "git",
@@ -21,59 +21,16 @@
   "files": [
     "LICENSE",
     "SHA256SUMS",
-    "index.js",
-    "slack-adapter.js",
-    "slack-notifier.js",
+    "lib/index.js",
+    "lib/slack-adapter.js",
+    "lib/slack-notifier.js",
     "manifest.json"
   ],
-  "moziot": {
-    "api": {
-      "min": 2,
-      "max": 2
-    },
-    "plugin": true,
-    "exec": "{nodeLoader} {path}",
-    "type": "notifier",
-    "schema": {
-      "type": "object",
-      "required": [
-        "webhookUrl"
-      ],
-      "properties": {
-        "webhookUrl": {
-          "type": "string",
-          "title": "The slack webhook url"
-        },
-        "messages": {
-          "type": "array",
-          "title": "Predefined messages",
-          "items": {
-            "type": "object",
-            "title": "A predefined message",
-            "required": [
-              "name",
-              "message"
-            ],
-            "properties": {
-              "name": {
-                "type": "string",
-                "title": "The name of the action"
-              },
-              "message": {
-                "type": "string",
-                "title": "The text of the message"
-              }
-            }
-          }
-        }
-      }
-    }
-  },
   "dependencies": {
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
-    "eslint": "^6.5.1",
-    "babel-eslint": "^10.0.3"
+    "@types/node-fetch": "^2.5.7",
+    "typescript": "^4.0.3"
   }
 }

@@ -8,28 +8,27 @@
 
 const fetch = require('node-fetch');
 
-const {
-  Notifier,
-  Outlet,
-} = require('gateway-addon');
+import { Constants, Notifier, Outlet } from 'gateway-addon';
 
 class SlackOutlet extends Outlet {
-  constructor(notifier, id, config) {
+  constructor(notifier: SlackNotifier, id: string, private manifest: any) {
     super(notifier, id);
     this.name = 'Slack';
-    this.config = config;
   }
 
-  notify(title, message) {
+  notify(_title: string, message: string, _level: Constants.NotificationLevel) {
     return this.send(message);
   }
 
-  async send(message) {
+  async send(message: string) {
     console.log(`Sending message: ${message}`);
-    const webhookUrl = this.config.webhookUrl;
+
+    const {
+      webhookUrl
+    } = this.manifest.moziot.config;
 
     if (webhookUrl && webhookUrl.trim && webhookUrl.trim() !== '') {
-      await fetch(this.config.webhookUrl, {
+      await fetch(webhookUrl, {
         method: 'post',
         body: JSON.stringify({
           text: message
@@ -44,18 +43,14 @@ class SlackOutlet extends Outlet {
   }
 }
 
-class SlackNotifier extends Notifier {
-  constructor(addonManager, manifest) {
+export class SlackNotifier extends Notifier {
+  constructor(addonManager: any, manifest: any) {
     super(addonManager, SlackNotifier.name, manifest.name);
 
     addonManager.addNotifier(this);
 
-    if (!this.outlets[SlackNotifier.name]) {
-      this.handleOutletAdded(
-        new SlackOutlet(this, SlackNotifier.name, manifest.moziot.config)
-      );
-    }
+    this.handleOutletAdded(
+      new SlackOutlet(this, SlackNotifier.name, manifest)
+    );
   }
 }
-
-module.exports = SlackNotifier;

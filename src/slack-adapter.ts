@@ -6,12 +6,9 @@
 
 'use strict';
 
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 
-const {
-  Adapter,
-  Device,
-} = require('gateway-addon');
+import { Adapter, Device } from 'gateway-addon';
 
 const notifyDescription = {
   '@type': 'NotificationAction',
@@ -28,23 +25,28 @@ const notifyDescription = {
 };
 
 class SlackDevice extends Device {
-  constructor(adapter, manifest) {
+  private messages: { [key: string]: any } = {};
+
+  constructor(adapter: SlackAdapter, private manifest: any) {
     super(adapter, manifest.display_name);
     this['@context'] = 'https://iot.mozilla.org/schemas/';
     this.name = manifest.display_name;
     this.description = manifest.description;
-    this.config = manifest.moziot.config;
+
+    const {
+      messages
+    } = manifest.moziot.config;
 
     this.addAction(notifyDescription.title, notifyDescription);
 
     this.messages = {};
 
-    if (this.config.messages) {
-      for (const message of this.config.messages) {
+    if (messages) {
+      for (const message of messages) {
         this.messages[message.name] = message.message;
 
         const action = {
-          '@type': notifyDescription.type,
+          '@type': notifyDescription['@type'],
           title: message.name,
           description: notifyDescription.description
         };
@@ -55,7 +57,7 @@ class SlackDevice extends Device {
     }
   }
 
-  async performAction(action) {
+  async performAction(action: any) {
     action.start();
 
     if (action.name === notifyDescription.title) {
@@ -73,12 +75,15 @@ class SlackDevice extends Device {
     action.finish();
   }
 
-  async send(message) {
+  async send(message: string) {
     console.log(`Sending message: ${message}`);
-    const webhookUrl = this.config.webhookUrl;
+
+    const {
+      webhookUrl
+    } = this.manifest.moziot.config;
 
     if (webhookUrl && webhookUrl.trim && webhookUrl.trim() !== '') {
-      await fetch(this.config.webhookUrl, {
+      await fetch(webhookUrl, {
         method: 'post',
         body: JSON.stringify({
           text: message
@@ -93,13 +98,11 @@ class SlackDevice extends Device {
   }
 }
 
-class SlackAdapter extends Adapter {
-  constructor(addonManager, manifest) {
+export class SlackAdapter extends Adapter {
+  constructor(addonManager: any, manifest: any) {
     super(addonManager, SlackAdapter.name, manifest.name);
     addonManager.addAdapter(this);
     const device = new SlackDevice(this, manifest);
     this.handleDeviceAdded(device);
   }
 }
-
-module.exports = SlackAdapter;
