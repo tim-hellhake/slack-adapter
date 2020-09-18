@@ -2,7 +2,7 @@
   "id": "slack-adapter",
   "short_name": "Slack",
   "name": "Slack",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Send slack messages to your workspace",
   "homepage_url": "https://github.com/tim-hellhake/slack-adapter#readme",
   "author": "Tim Hellhake",
